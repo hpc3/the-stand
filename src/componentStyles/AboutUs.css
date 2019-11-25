@@ -1,0 +1,67 @@
+#about-us{
+    height: 100vh;
+    background: no-repeat bottom/cover url("../images/AboutUsBackground.JPG");
+    /*filter: grayscale(100%);*/
+
+
+
+
+    font-family: 'Lexend Exa', sans-serif;
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+#about-us-heading{
+
+    font-size: 4em;
+    font-weight: lighter;
+    letter-spacing: .1em;
+    margin-top: 20vh;
+    margin-left: 25vh;
+
+    text-shadow: 0 0 4px black;
+
+    color: white;
+}
+
+
+#about-us-info{
+
+     /*background: rgba(0, 0, 0, 0.3);*/
+
+    margin-top: 40vh;
+    height: 25vh;
+    width: 25vh;
+
+    margin-left: 7em;
+    margin-right: 5em;
+
+
+    /*border: thin solid white;*/
+    border-radius: .5em;
+
+
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+}
+
+#about-us-info h2{
+    margin-left: 5%;
+}
+
+#about-us-info p{
+    margin-left: 10%;
+
+    color: rgba(79, 78, 79, 0.76);
+}
+
+
+
+
+
+

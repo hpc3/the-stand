@@ -1,0 +1,133 @@
+.produce-card{
+
+
+    font-size: .9em;
+    color: green;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 230px;
+    flex-basis: 4em;
+    justify-content: center;
+
+    border-radius: 5%;
+    border: medium inset darkgrey;
+
+    padding: 1em 1em;
+    margin: 1em;
+    height: 26em;
+    width: 24em;
+
+}
+
+.produce-value-title{
+    color: black;
+}
+
+.produce-card *{
+    margin: .5em;
+}
+
+
+.produce-card-container{
+    padding: auto;
+}
+
+.produce-card-image{
+    align-self: center;
+    height: 10.5em;
+    width: 10.5em;
+    border: 1px solid red;
+    border-radius: 10%;
+}
+
+.produce-card-title{
+    align-self: center;
+}
+
+
+
+.produce-card-inputs{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+
+.produce-card-inputs input{
+    width: 5rem;
+    height: 1rem;
+    font-size: 25px;
+    border-radius: 5%;
+    text-align: center;
+
+}
+
+.produce-card-inputs button{
+    font-size: 1.5em;
+    height: 1.5rem;
+    width: 3.5rem;
+    border-radius: 5%;
+    padding-top: 0;
+    padding-bottom: 1.3em;
+}
+
+
+
+.produce-quantity{
+    align-self: center;
+}
+
+
+
+.button-group{
+    align-self: center;
+}
+
+.button-group #inc{
+    background: rgba(39, 200, 47, 0.5);
+}
+
+.button-group #inc:hover, #dec:hover{
+    opacity: .5;
+}
+
+#button-group-enter{
+    /*background-color: rgba(41, 102, 223, 0.5);*/
+}
+
+#button-group-enter:hover{
+    background-color: rgba(41, 102, 223, 0.5);
+}
+
+.button-group #dec{
+    background: rgba(200, 48, 53, 0.5);
+}
+
+.quantity-input{
+    width: 50%;
+    height: 2em;
+    margin: .5em auto;
+}
+
+
+.inc{
+    background-color: green;
+    margin-right: .5em;
+}
+
+.dec{
+    background-color: red;
+    margin-left: .5em;
+}
+
+.produce-card-submit{
+    border-radius: 5%;
+    margin-top: 0;
+    padding-top: 0;
+    width: 50%;
+    height: 2em;
+    align-self: center;
+    color: #6b2a2c;
+}
