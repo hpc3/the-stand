@@ -11,6 +11,7 @@ import '../componentStyles/Produce.css'
 import '../componentStyles/font.css'
 import '../componentStyles/elemental.css'
 
+import "../images/peaches.jpg";
 
 
 
@@ -80,7 +81,7 @@ class Produce extends React.Component{
         return (
             <div>
                 <div className="produce-card">
-                    <img src={this.props.imgSrc} alt={this.props.name} className={this.props.name}/>
+                    {/*<img src={this.props.imgSrc} alt={this.props.name} className={this.props.name}/>*/}
                     <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
                     <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
                     <p><span className='produce-value-title'>Type:</span> {this.props.type}</p>
@@ -96,16 +97,6 @@ class Produce extends React.Component{
                     <input type='text' id={this.props.id} className='quantity-input'/>
 
 
-
-
-                    {/*<div className='produce-card-inputs'>*/}
-                        {/*<Button color='default'>+</Button>*/}
-                        {/*/!*<button className="inc" onClick={this.incrementQuantity.bind(this)}>+</button>*!/*/}
-                        {/*<input type='text' id='quantity-input'/>*/}
-                        {/*<button className='dec' onClick={this.decrementQuantity.bind(this)}>-</button>*/}
-                    {/*</div>*/}
-
-                    {/*<button className='produce-card-submit' onClick={this.inputChange.bind(this)}>Submit</button>*/}
                 </div>
             </div>
         );

@@ -97,7 +97,7 @@ class SearchContainer extends React.Component{
         return(
             <Router>
                 <Switch>
-                    <Route path='/'>
+                    <Route path='/Home'>
                         <div className='SearchContainer' id='produce'>
                             <SearchTools sortList={this.sortList}/>
                             <div className='produce-container'>
