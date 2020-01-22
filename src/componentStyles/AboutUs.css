@@ -54,15 +54,20 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 15vh;
+    margin-top: 10vh;
     color: white;
 }
 
 .about-us-tiles{
-    border: solid grey;
+    border: solid white;
     border-radius: 5%;
-    padding: 8em 6em;
+    padding: 5em 6em;
     background: rgba(0,0,0,.2);
+}
+
+.about-us-tiles:hover{
+    background: rgba(0,0,0,.8);
+    text-decoration: underline;
 }
 
 
@@ -76,6 +81,31 @@
     color: rgba(79, 78, 79, 0.76);
 }
 
+
+@media screen and (max-width: 645px){
+
+    #about-us{
+        align-items: center;
+    }
+
+    #about-us-heading{
+        margin-left: 0;
+    }
+
+    #about-us-content{
+        flex-direction: column;
+        margin-top: 0;
+        align-items: center;
+    }
+
+
+
+    .about-us-tiles{
+        margin-top: .5em;
+        padding: 3.32em 6em;
+    }
+
+}
 
 
 

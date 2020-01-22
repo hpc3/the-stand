@@ -1,1 +1,28 @@
 
+.produce-card-button-group{
+    display: flex;
+    justify-content: center;
+}
+
+.produce-card-button-group button{
+
+    font-size: 1.5em;
+    padding: .5em 1.5em;
+    border-radius: 5%;
+    border: none;
+
+
+}
+
+.produce-card-button-group button:active{
+    opacity: .1;
+}
+
+.dec{
+    background-color: #b81708;
+}
+
+.inc{
+    background-color: #3ab81f;
+}
+

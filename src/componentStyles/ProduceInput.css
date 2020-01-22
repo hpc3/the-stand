@@ -1,0 +1,15 @@
+.produce-card-form{
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0 25%;
+}
+
+.produce-card-form-input{
+    height: 2em;
+    text-align: center;
+}
+
+.produce-card-form-submit{
+    font-size: 2em;
+}
