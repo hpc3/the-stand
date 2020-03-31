@@ -1,109 +1,108 @@
 import React from 'react';
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import firebase from './firebase'
 
 
-import '../componentStyles/Produce.css'
-import '../componentStyles/font.css'
-import '../componentStyles/elemental.css'
-import '../componentStyles/ProduceButtons.css';
 import ProduceButtons from "./ProduceButtons";
 import ProduceInput from "./ProduceInput";
 
+import '../componentStyles/Produce.css'
+import '../componentStyles/font.css'
+import '../componentStyles/ProduceButtons.css';
 
 class Produce extends React.Component{
 
-
-    state = {
-        quantity: parseInt(this.props.quantity),
-        dad: false
+    constructor(props) {
+        super(props);
+        this.state={
+            quantity: '',
+            id: null,
+            hasBeenChanged: false
+        }
     }
-
-
-
-    // handleButtonView = () => {
-    //     if (this.state.dad !== true){
-    //         return(
-    //             <div>
-    //                 <ProduceButtons
-    //                     quantityChange={this.handleQuantityChange}
-    //                 />
-    //                 <ProduceInput
-    //                     quantityChange={this.handleQuantityChange}
-    //                 />
-    //             </div>
-    //
-    //         )
-    //     }
-    // }
-
-
-    handleQuantityChange = (delta) => {
-        this.setState(prevState =>{
-            return {
-                quantity: prevState.quantity += delta
-            }
+    
+    componentDidMount(){
+        this.setState({
+            quantity: parseInt(this.props.quantity),
+            id: this.props.id,
         })
     }
 
+    pushToFirestore = () => {
+        if(this.state.hasBeenChanged){
+            //push quanity back up, have to use the id to reference the document within the collection
+            
+
+            const db = firebase.firestore()
+            // ID of cloudfirestore document 
+            const docID = this.state.id
+            //Value of quantity to update 
+            const quantity = this.state.quantity
+            //created Data object to push back to firestore as date of last stocked
+            const lastStocked = new Date();
+    
+            db.collection('produce').doc(docID).update({
+                quantity: quantity,
+                lastStocked: lastStocked.toString()
+            })
+            .then(() => {
+                alert("data pushed")
+                console.log(docID);
+            })
+            .catch((error) => {
+                alert('Dad you gotta log in first');
+                console.log(error);
+            }) 
+        }else{
+            alert('Quantity has not been changed');
+        }
+    }
 
 
+    handleQuantityChange = (delta) => {
+        if(!this.state.hasBeenChanged){
+            this.setState((prevState) => ({
+                quantity: prevState.quantity += delta,
+                hasBeenChanged: true
+            }))
+        }else{
+            this.setState(prevState =>{
+                return{
+                    quantity: prevState.quantity += delta
+                }
+                
+            })
+        }
+    }
 
     render() {
+
+        let loggedIn = this.props.loggedIn;
+        let buttons;
+
+        if(loggedIn){
+            buttons = 
+                    <div>
+                        <ProduceButtons
+                                quantityChange={this.handleQuantityChange}
+                            />
+                        <ProduceInput
+                                quantityChange={this.handleQuantityChange}
+                            />
+                        <button onClick={this.pushToFirestore}>Submit</button>
+                    </div>
+        }
+
         return (
-
-            <Router>
-                <Switch>
-                    <Route path='/Dad'>
-                        <div>
-                            <div className="produce-card">
-                                {/*<img src={this.props.imgSrc} alt={this.props.name} className={this.props.name}/>*/}
-                                <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
-                                <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
-                                <p><span className='produce-value-title'>Type:</span> {this.props.type}</p>
-                                <p className='produce-season'><span className='produce-value-title'>Season:</span> {this.props.season}</p>
-                                <p className='produce-quantity'><span className='produce-value-title'>Quantity:</span> {this.state.quantity}</p>
-                                <ProduceButtons
-                                    quantityChange={this.handleQuantityChange}
-                                />
-                                <ProduceInput
-                                    quantityChange={this.handleQuantityChange}
-                                />
-                            </div>
-                        </div>
-                    </Route>
-                    <Route path='/'>
-                        <div>
-                            <div className="produce-card">
-                                {/*<img src={this.props.imgSrc} alt={this.props.name} className={this.props.name}/>*/}
-                                <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
-                                <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
-                                <p><span className='produce-value-title'>Type:</span> {this.props.type}</p>
-                                <p className='produce-season'><span className='produce-value-title'>Season:</span> {this.props.season}</p>
-                                <p className='produce-quantity'><span className='produce-value-title'>Quantity:</span> {this.state.quantity}</p>
-                            </div>
-                        </div>
-                    </Route>
-                </Switch>
-            </Router>
-
-
-
-            // <div>
-            //     <div className="produce-card">
-            //         {/*<img src={this.props.imgSrc} alt={this.props.name} className={this.props.name}/>*/}
-            //         <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
-            //         <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
-            //         <p><span className='produce-value-title'>Type:</span> {this.props.type}</p>
-            //         <p className='produce-season'><span className='produce-value-title'>Season:</span> {this.props.season}</p>
-            //         <p className='produce-quantity'><span className='produce-value-title'>Quantity:</span> {this.state.quantity}</p>
-            //     </div>
-            // </div>
+                <div className="produce-card">
+                    <img src={this.props.imgSrc} alt={this.props.name} className='produce-card-images'/>
+                    <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
+                    <p><span className='produce-value-title'>Last Stocked:</span> {this.props.lastStocked}</p>
+                    <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
+                    <p><span className='produce-value-title'>Type:</span> {this.props.type}</p>
+                    <p className='produce-season'><span className='produce-value-title'>Season:</span> {this.props.season}</p>
+                    <p className='produce-quantity'><span className='produce-value-title'>Quantity:</span> {this.state.quantity}</p>
+                    {buttons} 
+                </div>   
         );
     }
 

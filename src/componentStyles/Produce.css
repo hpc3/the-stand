@@ -1,21 +1,19 @@
 .produce-card{
-
-
     font-size: .9em;
     color: green;
+
+
     display: flex;
     flex-direction: column;
-    flex: 0 0 230px;
-    flex-basis: 4em;
+    flex-basis: 25em;
     justify-content: center;
 
     border-radius: 5%;
     border: medium inset darkgrey;
 
-    padding: 1em 1em;
+    padding: 1em;
     margin: 1em;
-    height: 26em;
-    width: 24em;
+    
 
 }
 
@@ -32,15 +30,20 @@
     padding: auto;
 }
 
-.produce-card-image{
+.produce-card-images{
     align-self: center;
-    height: 10.5em;
-    width: 10.5em;
+    margin-bottom: 1em;
+    height: 10em;
+    width: 10em;
     border: 1px solid red;
     border-radius: 10%;
 }
 
+
+
 .produce-card-title{
+    padding-top: 0;
+    margin-top: 0;
     align-self: center;
 }
 

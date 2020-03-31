@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import '../componentStyles/ProduceButtons.css';
-
 
 const ProduceButtons = (props) => {
     return(
