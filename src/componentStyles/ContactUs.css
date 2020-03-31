@@ -1,5 +1,42 @@
-#contact-us{
+.contact-us-container{
+    height: 100vh;
+    padding-top: 10vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, .5);
+    
+    font-family: 'Lexend Exa', sans-serif;
+}
+
+#contact-us-form{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+#contact-us-title{
     color: white;
+    border-bottom: .05em solid black;
+    margin: 0;
+    padding: 0;
+}
+
+#contact-us-form > label{
+    margin: 2vh 0;
+}
+
+#contact-us-form > textarea{
+    height: 25vh;
+}
+
+#contact-us-form > button{
+    border-radius: 2em;
+    background: white;
+    width: 5em;
+}
+
+#contact-us-form > input[name="name"],input[name="email"]{
+    width: 25%;
+    height: 2em;
 }
