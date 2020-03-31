@@ -1,43 +1,56 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
+import AboutUsTheFamily from './AboutUsTheFamily';
+import AboutUsTheStand from './AboutUsTheStand';
 
 import '../componentStyles/AboutUs.css';
-import '../componentStyles/font.css';
+
 
 class AboutUs extends React.Component{
-
-
     render() {
         return (
-            <div id='about-us'>
-                {/*<span id='aboutus'></span>*/}
-
-                <h1 id='about-us-heading'>Our Story</h1>
-
-                <span id='about-us-content'>
-                    <div className='about-us-tiles'>
-                        <p>The Family</p>
-                    </div>
-                    <div className='about-us-tiles'>
-                        <p>The Stand</p>
-                    </div>
-                </span>
-
-                {/*<div id='about-us-description'>*/}
-                {/*    <p>*/}
-                {/*        The Kids Produce Stand is hard to pin down.*/}
-                {/*        It began from a simple problem, we had too many tomatoes.*/}
-                {/*        Henry, our father, placed a shotty table in front of our fence.*/}
-                {/*        The table contained two things, tomatoes and an old coffee container with a slit.*/}
-                {/*        With the support of the community we've grown to what we are today.*/}
-                {/*        Thank you for your continued support.*/}
-                {/*        And tell your friends to stop by.*/}
-                {/*    </p>*/}
-                {/*</div>*/}
-            </div>
+            <div id="about-us">
+                <Router>
+                    <Switch>
+                        <Route exact path='/'>
+                            <Home/>
+                        </Route>
+                        <Route path='/thefamily'>
+                            <AboutUsTheFamily/>
+                        </Route>
+                        <Route path='/thestand'>
+                            <AboutUsTheStand/>
+                        </Route>
+                    </Switch>
+                </Router>
+            </div>  
         );
+        function Home(){
+            return(
+                <div id='about-us-home'>
+                    <h1 id='about-us-heading'>Our Story</h1>
+                    <span id='about-us-content'>
+                        <div className='about-us-tiles'>
+                            <Link to='/thefamily' className='react-links'><p>The Family</p></Link>
+                        </div>
+                        <div className='about-us-tiles'>
+                            <Link to='/thestand' className='react-links'><p>The Stand</p></Link>
+                        </div>
+                    </span>
+                </div>
+            )
+        }
     }
-
 }
 
 export default AboutUs;
+
+
+
+

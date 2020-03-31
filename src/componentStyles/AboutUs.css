@@ -2,80 +2,96 @@
     height: 100vh;
     background: no-repeat bottom/cover url("../images/AboutUsBackground.JPG");
     font-family: 'Lexend Exa', sans-serif;
-
+    color: blue;
+}
+/* Home */
+#about-us-home{
     display: flex;
     flex-direction: column;
-
+    align-items: center;
+    padding-top: 30vh;
 }
 
 #about-us-heading{
-
-    font-size: 4em;
-    font-weight: lighter;
-    letter-spacing: .1em;
-    margin-top: 10vh;
-    margin-left: 25vh;
-
-    text-shadow: 0 0 4px black;
-
-    color: white;
+    font-size: 5em;
+    font-weight: 100;
+    border-bottom: .05em solid white;
 }
 
-
-#about-us-description{
-
-     background: rgba(0, 0, 0, 0.3);
-
-    margin-top: 40vh;
-    padding-bottom: 2em;
-    height: 25vh;
-    width: 25vh;
-
-    margin-left: 7em;
-    margin-right: 5em;
-
-
-    /*border: thin solid white;*/
-    border-radius: .5em;
-
-
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-
-    color: white;
-}
-
-#about-us-description p{
-
-}
 
 #about-us-content{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    margin-top: 15vh;
+    justify-content: space-evenly;
+    margin-top: 10vh;
+    width: 60%;
+
+    color: blue;
+    font-size: 1.5em;
+    letter-spacing: .1em;
+
+}
+
+/* .about-us-tiles:hover{
+    color: springgreen;
+} */
+
+.react-links{
+    all: inherit;
+}
+
+.react-links:hover{
+    color: springgreen;
+}
+/* /Home */
+
+/* The Family */
+ 
+/* #about-us-family{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15vh;
+    width: 75%;
+}*/
+
+
+/* #about-us-family-title{
+    font-size: 3em;
+    padding-left: 20vh;
+    align-self: flex-start;
+} */
+
+/* #about-us-family-content{
+    padding-top: 10vh;
     color: white;
+    width: 50%;
+}  */
+
+
+/* /The Family */
+
+
+@media screen and (max-width: 923px){
+    
+    
+    #about-us-content{
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    
+    }
+
+    .about-us-tiles{
+        margin: .5em 0;
+    }
 }
 
-.about-us-tiles{
-    border: solid grey;
-    border-radius: 5%;
-    padding: 8em 6em;
-    background: rgba(0,0,0,.2);
+@media screen and (max-width: 645px){
+    #about-us-heading{
+        font-size: 3em;
+    }
 }
-
-
-#about-us-info h2{
-    margin-left: 5%;
-}
-
-#about-us-info p{
-    margin-left: 10%;
-
-    color: rgba(79, 78, 79, 0.76);
-}
-
 
 
 

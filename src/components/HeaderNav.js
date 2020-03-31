@@ -12,12 +12,11 @@ export default function HeaderNav() {
             config={{duration: 1250}}
         >
             {props => <div style={props}>
-                <ul className='header-nav'>
-                <li className='header-nav-item'><a href='#top'>Home</a></li>
-                <li className='header-nav-item'><a href='#aboutus'>About Us</a></li>
-                <li className='header-nav-item'><a href='#produce'>Produce</a></li>
-                <li className='header-nav-item'><a href='#top'>Contact Us</a></li>
-                </ul>
+                <nav className="header-nav">
+                    <li className='header-nav-item'><a href='#about-us'>About Us</a></li>
+                    <li className='header-nav-item'><a href='#produce'>Produce</a></li>
+                    <li className='header-nav-item'><a href='#contact-us'>Contact Us</a></li>
+                </nav>
             </div>}
         </Spring>
     )

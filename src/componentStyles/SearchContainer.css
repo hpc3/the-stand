@@ -1,11 +1,10 @@
 .SearchContainer{
     color: #6b2a2c;
-    height: 100vh;
     font-family: 'Lexend Exa', sans-serif;
 
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
+    align-items: center;
 
 }
 
@@ -15,10 +14,7 @@
 .produce-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    padding: 1em;
+    justify-content: space-evenly;
+    padding-top: 3em;
     width: 85%;
-    margin: auto;
-
-
 }

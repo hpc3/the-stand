@@ -1,0 +1,78 @@
+#about-us-the-stand{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10vh;
+}
+
+#about-us-the-stand-title{
+    font-size: 3em;
+    border-bottom: .08em solid white;
+}
+
+#about-us-the-stand-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1.5em 3em;
+}
+
+#about-us-the-stand-container-content{
+    width: 50vw;
+    border: 1px solid white;
+    border-radius: 5px;
+    background: rgba(27, 27, 36, 0.564);
+    padding: 2em;
+    color: white;
+}
+
+
+
+
+#about-us-the-stand-container > img{
+    height: 25vw;
+    width: 25vw;
+    border: .08em solid black;
+    margin-right: 3em;
+}
+
+
+@media screen and (max-width: 900px){
+
+    #about-us-the-stand-container{
+        padding-top: 15vh;
+    }
+
+    #about-us-the-stand-container-content{
+        font-size: 75%;
+    }
+
+
+}
+
+
+@media screen and (max-width: 750px){
+
+
+    #about-us-the-stand-container{
+        flex-direction: column;
+        padding-top: 5vh;
+    }
+
+    
+
+    #about-us-the-stand-container > img{
+        height: 30vw;
+        width: 30vw;
+        margin-right: 0;
+    }
+
+    #about-us-the-stand-container-content{
+        margin-top: 2em;
+    }
+
+    #about-us-the-stand > .react-links{
+        padding: 0;
+    }
+
+}
