@@ -46,7 +46,6 @@ class Produce extends React.Component{
             })
             .then(() => {
                 alert("data pushed")
-                console.log(docID);
             })
             .catch((error) => {
                 alert('Dad you gotta log in first');

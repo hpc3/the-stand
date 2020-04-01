@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
+    Route
 } from "react-router-dom";
 
 import firebase from './firebase'
@@ -43,7 +41,6 @@ class SearchContainer extends Component{
             .get()
             .then(querySnapshot => {
                 let tempArray = [];
-                console.log(querySnapshot)
                 querySnapshot.forEach(doc => {
                     // grab doc.data() and set it to temp obj
                     let tempObj = doc.data();
@@ -104,16 +101,12 @@ class SearchContainer extends Component{
     render() {
         return(
             <div className='SearchContainer' id="produce" >
-                <Router>
-                    <Switch>
-                        <Route path="/Dad">
-                            <Login
-                                loginState={this.state.loggedIn}
-                                loginHandler={this.handleUserState}
-                            />
-                        </Route>
-                    </Switch>
-                </Router>
+                <Route path="/Dad">
+                    <Login
+                        loginState={this.state.loggedIn}
+                        loginHandler={this.handleUserState}
+                    />
+                </Route>
                 <SearchTools sortList={this.sortList}/>
                 <div className='produce-container'>
                     {this.state.produce.map((produce, index) =>
