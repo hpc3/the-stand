@@ -1,9 +1,8 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+    Switch,
+    Route,
+    Link,
 } from "react-router-dom";
 
 import AboutUsTheFamily from './AboutUsTheFamily';
@@ -13,22 +12,17 @@ import '../componentStyles/AboutUs.css';
 
 
 class AboutUs extends React.Component{
+    
+
+    
     render() {
         return (
             <div id="about-us">
-                <Router>
-                    <Switch>
-                        <Route exact path='/'>
-                            <Home/>
-                        </Route>
-                        <Route path='/thefamily'>
-                            <AboutUsTheFamily/>
-                        </Route>
-                        <Route path='/thestand'>
-                            <AboutUsTheStand/>
-                        </Route>
-                    </Switch>
-                </Router>
+                <Switch>
+                    <Route path='/thefamily' component={AboutUsTheFamily}/>
+                    <Route path='/thestand' component={AboutUsTheStand}/>
+                    <Route path='/' component={Home}/>
+                </Switch>
             </div>  
         );
         function Home(){
