@@ -9,6 +9,9 @@ import '../componentStyles/Produce.css'
 import '../componentStyles/font.css'
 import '../componentStyles/ProduceButtons.css';
 
+import images from './images';
+
+
 class Produce extends React.Component{
 
     constructor(props) {
@@ -90,10 +93,9 @@ class Produce extends React.Component{
                         <button onClick={this.pushToFirestore}>Submit</button>
                     </div>
         }
-
         return (
                 <div className="produce-card">
-                    <img src={this.props.imgSrc} alt={this.props.name} className='produce-card-images'/>
+                    <img  src={images[this.props.name].src} alt={this.props.name} className='produce-card-images'/>
                     <h3 className='produce-card-title'>{this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}</h3>
                     <p><span className='produce-value-title'>Last Stocked:</span> {this.props.lastStocked}</p>
                     <p><span className='produce-value-title'>Price:</span> ${this.props.price}</p>
