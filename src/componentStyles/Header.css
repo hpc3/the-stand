@@ -6,7 +6,7 @@ header{
 
     color: #f9f400;
     background: no-repeat center/cover;
-    background-image: url("../images/IMG_1161.jpg");
+    background-image: url("../images/headerImage.jpg");
     height: 100vh;
     letter-spacing: .5em;
     margin: 0;
@@ -16,7 +16,15 @@ header{
     font-family: 'Lexend Exa', sans-serif;
 }
 
-.header-title{
+#header-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 35%;
+}
+
+#header-title{
 
     font-size: 5em;
     font-weight: 100;
@@ -24,8 +32,7 @@ header{
 
 }
 
-.header-nav{
-    padding-top: 3em;
+#header-nav{
     display: flex;
     flex-direction: row;
 
@@ -58,9 +65,10 @@ header{
 
 @media screen and (max-width: 923px){
 
-    .header-nav{
+    #header-nav{
         flex-direction: column;
         align-items: center;
+        /* margin-top: 5em; */
     }
 
     .header-nav-item{
@@ -71,7 +79,7 @@ header{
 }
 
 @media screen and (max-width: 645px){
-    .header-title{
+    #header-title{
         font-size: 3em;
     }
 }
