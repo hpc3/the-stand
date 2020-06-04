@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 import '../componentStyles/AboutUsTheStand.css';
 
@@ -17,8 +16,7 @@ function AboutUsTheStand(props) {
                     <p>What began as a way to get rid of extra tomatoes became a small family business. Happy providing the community with fresh produce from the summer through the fall.</p>
                 </span>
             </div>
-
-            <Link to='/' className='react-links' >Home</Link>
+            <button className="about-us-button about-us-button-subnav" onClick={props.changePage}>Back</button>
         </div>
     );
 }

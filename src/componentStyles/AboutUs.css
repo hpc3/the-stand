@@ -1,7 +1,10 @@
 #about-us{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     height: 100vh;
     background: no-repeat bottom/cover url("../images/AboutUsBackground.JPG");
-    font-family: 'Lexend Exa', sans-serif;
     color: blue;
 }
 /* Home */
@@ -9,7 +12,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 30vh;
+
+    width: 60%;
 }
 
 #about-us-heading{
@@ -22,9 +26,9 @@
 #about-us-content{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin-top: 10vh;
-    width: 60%;
+    width: 100%;
 
     color: blue;
     font-size: 1.5em;
@@ -32,44 +36,26 @@
 
 }
 
-/* .about-us-tiles:hover{
-    color: springgreen;
-} */
 
-.react-links{
-    all: inherit;
+.about-us-button{
+    margin-top: 1em;
+    border: none;
+    background: none;
+    font-size: 4vw;
+    color: blue;
+    letter-spacing: .1em;
 }
 
-.react-links:hover{
-    color: springgreen;
+.about-us-button:hover{
+    color: springgreen
 }
-/* /Home */
 
-/* The Family */
- 
-/* #about-us-family{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 15vh;
-    width: 75%;
-}*/
+.about-us-button-subnav{
+    font-size: 3vw;
+    border-bottom: .05em solid white;
+}
 
 
-/* #about-us-family-title{
-    font-size: 3em;
-    padding-left: 20vh;
-    align-self: flex-start;
-} */
-
-/* #about-us-family-content{
-    padding-top: 10vh;
-    color: white;
-    width: 50%;
-}  */
-
-
-/* /The Family */
 
 
 @media screen and (max-width: 923px){
@@ -82,14 +68,28 @@
     
     }
 
+    #about-us-home{
+        padding-top: 20vh;
+    }
+
     .about-us-tiles{
         margin: .5em 0;
     }
+
+    .about-us-button{
+        margin-top: .5em;
+        font-size: 5vw;
+    }
+
 }
 
 @media screen and (max-width: 645px){
     #about-us-heading{
         font-size: 3em;
+    }
+
+    .about-us-button{
+        font-size: 7vw;
     }
 }
 

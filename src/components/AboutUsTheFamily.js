@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+
 import FamilyMember from './FamilyMember';
 
 import '../componentStyles/AboutUsTheFamily.css';
@@ -16,17 +16,17 @@ function AboutUsTheFamily(props) {
            <div id='about-us-family'>
                 <h2 id="about-us-family-title">The Family</h2>
                 <div id='family-member-container'>
-                    <FamilyMember className="col-1" name='Little Henry' imgPath={Henry}/>
-                    <FamilyMember className="col-1" name='Kyle' imgPath={Kyle}/>
+                    <FamilyMember  name='Little Henry' imgPath={Henry}/>
+                    <FamilyMember  name='Kyle' imgPath={Kyle}/>
                     <div className="mobile-break"></div>
-                    <FamilyMember className="col-1" name='Anna' imgPath={Anna}/>
+                    <FamilyMember name='Anna' imgPath={Anna}/>
                     <div id="desktop-break"></div>
-                    <FamilyMember className="col-1" name='Big Henry' imgPath={Dad}/>
+                    <FamilyMember name='Big Henry' imgPath={Dad}/>
                     <div className="mobile-break"></div>
-                    <FamilyMember className="col-1"name='Mary Ellen' imgPath={Mom}/>
-                    <FamilyMember className="col-1"name='Harry' imgPath={Harry}/>
+                    <FamilyMember name='Mary Ellen' imgPath={Mom}/>
+                    <FamilyMember name='Harry' imgPath={Harry}/>
                 </div>
-                <Link to='/' className='react-links'>Back</Link>
+                <button className="about-us-button about-us-button-subnav" onClick={props.changePage}>Back</button>
             </div> 
     );
 }
