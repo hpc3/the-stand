@@ -3,7 +3,7 @@ import {
     Route
 } from "react-router-dom";
 
-import firebase from './firebase'
+import firebase from './firebase';
 
 import SearchTools from "./SearchTools";
 import Produce from "./Produce";
@@ -98,7 +98,24 @@ class SearchContainer extends Component{
             });
         }
     }
-    render() {
+    render() 
+    {
+        
+        let errorWithData = <h1> That's weird, something went wrong </h1>
+
+        let produceCards;
+
+        if(this.state.produce.length !== 0){
+            produceCards = this.state.produce.map((produce, index) =>
+                <Produce
+                {...produce}
+                key={produce.id}
+                index={index}
+                loggedIn={this.state.loggedIn}
+                />
+             )
+        }
+        
         return(
             <div className='SearchContainer' id="produce" >
                 <Route path="/Dad">
@@ -109,14 +126,8 @@ class SearchContainer extends Component{
                 </Route>
                 <SearchTools sortList={this.sortList}/>
                 <div className='produce-container'>
-                    {this.state.produce.map((produce, index) =>
-                        <Produce
-                        {...produce}
-                        key={produce.id}
-                        index={index}
-                        loggedIn={this.state.loggedIn}
-                        />
-                     )}
+                {/* If produce data has been recieved render cards, else alert user of error */}
+                {this.state.produce.length !== 0 ? produceCards : errorWithData }
                 </div>
             </div> 
         )
