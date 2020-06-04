@@ -5,7 +5,11 @@ import AboutUs from './AboutUs'
 import SearchContainer from './SearchContainer';
 import ContactUs from "./ContactUs";
 
+import '../componentStyles/font.css'
 import '../componentStyles/App.css';
+
+
+
 
 const App = () => {
     return (

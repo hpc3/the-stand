@@ -6,7 +6,6 @@ import ProduceButtons from "./ProduceButtons";
 import ProduceInput from "./ProduceInput";
 
 import '../componentStyles/Produce.css'
-import '../componentStyles/font.css'
 import '../componentStyles/ProduceButtons.css';
 
 import images from './images';

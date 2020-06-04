@@ -1,6 +1,6 @@
 .SearchContainer{
     color: #6b2a2c;
-    font-family: 'Lexend Exa', sans-serif;
+    background-color: white;
 
     display: flex;
     flex-direction: column;

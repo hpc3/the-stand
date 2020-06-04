@@ -1,8 +1,7 @@
-  
-import React from 'react';
+  import React from 'react';
 
 import '../componentStyles/SearchTools.css'
-import '../componentStyles/font.css'
+
 
 const SearchTools = (props) => {
 

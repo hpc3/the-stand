@@ -2,7 +2,6 @@ import React from 'react';
 import firebase from './firebase';
 
 import '../componentStyles/ContactUs.css';
-import '../componentStyles/font.css';
 
 class ContactUs extends React.Component{
 
