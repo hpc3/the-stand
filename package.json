@@ -1,42 +1,27 @@
 {
   "name": "the-stand",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "http://hpc3.github.io/the-stand",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "firebase": "^7.7.0",
-    "firestore-export-import": "^0.3.2",
-    "gh-pages": "^2.2.0",
-    "git": "^0.1.5",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
-    "react-spring": "^8.0.27"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "nodemon app.js"
   },
-  "eslintConfig": {
-    "extnends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hpc3/the-stand.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hpc3/the-stand/issues"
+  },
+  "homepage": "https://github.com/hpc3/the-stand#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.5.0",
+    "mongoose": "^5.9.18",
+    "nodemon": "^2.0.4"
   }
 }
