@@ -1,70 +1,181 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# The Stand - API Documentation
 
-## Available Scripts
+## Usage
 
-In the project directory, you can run:
+    Storing and retrieving data from a MongoDB database
 
-### `npm start`
+## Collections
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    Produce - Data representing an item to be sold
+    Comments - comments from a customer submitted through a form
+    Users - Data regarding log in information which allows a user to manipulate and access certain data
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+## Routes
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+/produce
+/comments
+/users
 
-### `npm run build`
+## Models
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### User
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```json
+{
+    "username": 'String type - ',
+    "password": "String type -   '
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### Produce
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```json
+{
+    "identifier": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
+    "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
+    "price": "Number Type - price in USD",
+    "quantity": "Number Type - current count of item in stock",
+    "dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases",
+    "imgSrc": "String Type - file path for image to corresponding item, ends in /identifier"
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Comment
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```json
+{
+  "name": "String Type - name of person submitting comment",
+  "email": "String Type - email of person submitting comment",
+  "message": "String Type - message of person submitting comment"
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Functionality
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### /users
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Log In
 
-### Code Splitting
+`POST /users/login`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+**Response**
 
-### Analyzing the Bundle Size
+-- `200 Ok` and token on success
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+-- `404` when user not found or password isn't correct
 
-### Making a Progressive Web App
+**Arguments**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+-`"email`
+-`"password"`
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### /produce
 
-### `npm run build` fails to minify
+#### List all produce in collection
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`GET /produce`
 
-https://wireframe.cc/ysaxiK
+**Response**
+
+-- `200 OK` on success
+
+```json
+{
+    {
+        "name": "Corn",
+        "price": "0.50",
+        "quantity": 50,
+        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z",
+        "imgSrc": "../img/corn.jpg"
+    },
+    {
+        "name": "green_beans",
+        "price": "1.50",
+        "quantity": 10,
+        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z",
+        "imgSrc": "../img/green-beans.jpg"
+    }
+}
+```
+
+#### Add new produce item
+
+**Required Authentication**
+
+`POST /produce`
+
+**Arguments**
+
+- `"identifier": "String Type - globally unique identifier for produce item ex. tomato, green-bean"`
+- `"name": "String Type - name of a produce item for UI ex. Tomato, Green Beans"`
+- `"price": "Number Type - price in USD"`
+- `"quantity": "Number Type - current count of item in stock"`
+- `"dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"`
+- `"imgSrc": "String Type - path of image for corresponding item, ends in /idenfifier"`
+
+
+**Response**
+
+-- `201 Created` on success
+
+
+#### Updating a produce items quantity
+
+`PATCH /produce/<identifier>`
+
+**Arguments**
+
+- `"identifier: "String Type - globally unique identifier for produce item ex. tomato, green-bean"`
+- `"quantity": ""Number Type - current count of item in stock"" `
+- `"dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"`
+
+**Response**
+
+--`200 OK`on success
+
+--`401 Unauthorized` for unaurothrized user making request
+--`404 Not Found` for an identifier that does not exist 
+
+
+### /comments
+
+#### Submit new comment
+
+`POST /comments`
+
+
+**Arguments**
+
+-`"name": "String Type - name of person submitting comment"`
+-`"email": "String Type - email of person submitting comment"`
+-`"message": "String Type - message of person submitting comment"`
+
+
+**Response** 
+
+-- `201 Created` on success
+
+
+#### List all comments from collection
+
+`GET /comments`
+
+**Response**
+
+- `200 OK` on success
+
+```json
+
+{
+    "name":"The Knight",
+    "email": "dadWhyYouTrapMeInACave@HollowNest.edu",
+    "comment": "I guess having no emotions helps with having an absentee father"
+}
+
+```
