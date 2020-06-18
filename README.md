@@ -6,7 +6,7 @@
 
 ## Collections
 
-    Produce - Data representing an item to be sold
+    Veggies - Data representing an item to be sold
     Comments - comments from a customer submitted through a form
     Users - Data regarding log in information which allows a user to manipulate and access certain data
 
@@ -59,18 +59,47 @@
 
 #### Log In
 
-`POST /users/login`
-
-**Response**
-
--- `200 Ok` and token on success
-
--- `404` when user not found or password isn't correct
+`POST /auth/login`
 
 **Arguments**
 
--`"email`
+-`"email"`
 -`"password"`
+
+**Response**
+
+Success
+-- `200 Ok` and token on success
+
+
+Failure
+-- `422` Missing Username or Password
+-- `404` User was not found in Database
+-- `401` Passwords did not match
+
+
+#### Create User
+
+`POST /auth/create`
+
+(Not connected to front end because creating a user isn't a main part of functionality, only one or two users will be needed)
+
+**Arguments**
+
+-`"username"`
+-`"password"`
+
+**Response**
+
+Success
+-- `201 Created`  User was created, token passed to front end  
+
+
+Failure
+
+-- `409 Conflict` A user with that name already exists 
+-- `422 Unprocessable Entity` Missing username or password
+
 
 
 
@@ -100,7 +129,8 @@
         "quantity": 10,
         "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z",
         "imgSrc": "../img/green-beans.jpg"
-    }
+    },
+    ...
 }
 ```
 
