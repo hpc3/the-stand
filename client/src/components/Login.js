@@ -56,7 +56,7 @@ class Login extends Component {
 
   handleLogOut = (e) => {
     e.preventDefault();
-    this.loginHandler();
+    this.props.loginHandler();
     localStorage.removeItem("token");
   };
 
