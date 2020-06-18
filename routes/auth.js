@@ -1,9 +1,10 @@
 require("dotenv/config");
 
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
+const loginHandler = require('../middlewares/loginHandler');
 
 const User = require("../models/User");
 
@@ -11,56 +12,8 @@ const router = express.Router();
 
 // SIGN IN A USER
 
-router.post("/login", async (req, res) => {
-
-  // POSSIBLE OUTCOMES
-  // 1. THE USER DOES NOT EXIST IN THE DATABASE -> Send 404
-  // 2. THE PASSWORDS DO NOT MATCH -> Send 401
-  // 3. USER EXIST AND PASSWORD MATCH -> Send Token
-  // 4. USERNAME OR PASSWORD IS EMPTY -> Send 422
-  
-
-  let { username, password } = req.body;
-  
-  if (!username || !password) {
-    // 4. USERNAME OR PASSWORD IS EMPTY
-    return res.sendStatus(422);
-  }
-
-  await User.findOne({
-    username: req.body.username,
-  })
-    .then((user) => {
-      if (!user) {
-        // 1. THE USER DOES NOT EXIST IN THE DATABASE
-         return res.sendStatus(404);
-      } else {
-        bcrypt.compare(
-          req.body.password,
-          user.password,
-          (bcryptErr, request) => {
-            if (bcryptErr) {
-              return res.json(bcryptErr);
-            }
-            // 3. USER EXIST AND PASSWORD MATCH -> LOG IN
-            if (request) {
-              const accessToken = jwt.sign(
-                { user },
-                process.env.JWT_SECRET_TOKEN,
-                { expiresIn: "30m" }
-              );
-
-              return res.status(201).json(accessToken);
-            }
-            // 2. THE PASSWORDS DO NOT MATCH
-            else {
-              return res.status(401).send("Password does not match");
-            }
-          }
-        );
-      }
-    })
-    .catch((err) => res.json(err));
+router.post("/login", loginHandler, (req, res) => {
+  res.send();
 });
 
 
