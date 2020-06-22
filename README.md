@@ -37,8 +37,7 @@
     "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
     "price": "Number Type - price in USD",
     "quantity": "Number Type - current count of item in stock",
-    "dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases",
-    "imgSrc": "String Type - file path for image to corresponding item, ends in /identifier"
+    "dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"
 }
 ```
 
