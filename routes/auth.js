@@ -1,11 +1,7 @@
-require("dotenv/config");
-
 const express = require("express");
 
 const loginHandler = require('../middlewares/loginHandler');
 const createUserHandler = require('../middlewares/createUserHandler');
-
-const User = require("../models/User");
 
 const router = express.Router();
 
