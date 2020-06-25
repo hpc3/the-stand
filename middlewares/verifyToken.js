@@ -1,29 +1,28 @@
 require("dotenv/config");
 
+const createError = require("http-errors");
 
 const jwt = require("jsonwebtoken");
 
 function verifyToken(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
 
-  try{
+  if (bearerHeader === undefined) {
+    throw createError(
+      400,
+      "Missing Token, must be signed in to make this request"
+    );
+  }
 
-    const bearerHeader = req.headers["authorization"];
-
-    if(bearerHeader === undefined){
-      throw Error("No token given, must be signed in to make this request");
+  const token = bearerHeader.split(" ")[1];
+  jwt.verify(token, process.env.JWT_SECRET_TOKEN, (err) => {
+    if (err) {
+      throw createError(400, "Token is invalid");
     }
 
-    const token = bearerHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
     next();
     return;
- 
-  }
-  catch(error){
-    next(error);
-    return;
-  }
-
+  });
 }
 
 module.exports = verifyToken;
