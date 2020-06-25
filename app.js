@@ -13,12 +13,12 @@ const app = express();
 
 const authRoutes = require('./routes/auth');
 const produceRoutes = require('./routes/produce');
-const postRoutes = require('./routes/posts');
+const commentRoutes = require('./routes/comments');
 
 
 app.use(express.json());
 
-app.use('/posts', postRoutes);
+app.use('/comment', commentRoutes);
 app.use('/produce', produceRoutes);
 app.use('/auth', authRoutes);
 
