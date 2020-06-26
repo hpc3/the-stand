@@ -1,17 +1,17 @@
 const Veggie = require("../models/Veggie");
 
-async function quantityChangeHandler(req, res, next) {
+const createError = require("http-errors");
 
+async function quantityChangeHandler(req, res, next) {
   // Missing id or quantity -> 422
   // Item does not exists in the database -> 404
-  // Items has been updated -> 200 
-
+  // Items has been updated -> 200
 
   try {
     const { id, quantity } = req.body;
 
     if (!id || !quantity) {
-      throw Error;
+      throw createError(400, "Missing id or quantity");
     }
 
     const response = await Veggie.updateOne(
@@ -21,14 +21,15 @@ async function quantityChangeHandler(req, res, next) {
 
     // ITEM DOES NOT EXIST IN THE DB
     if (response.n === 0) {
-      throw Error;
+      throw createError(404, "Item does not exist");
     }
 
     res.status(200).json({ message: "Item has been updated" });
     next();
     return;
   } catch (error) {
-    return next(error);
+    next(error);
+    return;
   }
 }
 

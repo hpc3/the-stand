@@ -1,4 +1,6 @@
 const express = require("express");
+const createError = require("http-errors");
+
 const router = express.Router();
 
 const verifyToken = require("../middlewares/verifyToken");
@@ -7,21 +9,21 @@ const Comment = require("../models/Comment");
 
 // Get all comments
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", verifyToken, async (req, res, next) => {
   try {
     const payload = await Comment.find({}, { _id: 0, __v: 0 });
     res.json(payload);
   } catch (error) {
-    console.log(error);
-    res.json({ message: error });
+    next(error);
+    return;
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const { name, email, message } = req.body;
     if (!name || !message) {
-      throw Error("Missing a name and message are required");
+      throw createError(400, "Missing name or comment")
     }
 
     const newComment = new Comment({
@@ -34,7 +36,8 @@ router.post("/", async (req, res) => {
 
     res.status(201).json({ message: "Comment has been posted" });
   } catch (error) {
-    console.log(error);
+    next(error);
+    return;
   }
 });
 

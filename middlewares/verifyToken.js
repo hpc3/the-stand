@@ -9,7 +9,7 @@ function verifyToken(req, res, next) {
 
   if (bearerHeader === undefined) {
     throw createError(
-      400,
+      403,
       "Missing Token, must be signed in to make this request"
     );
   }
@@ -17,7 +17,7 @@ function verifyToken(req, res, next) {
   const token = bearerHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_SECRET_TOKEN, (err) => {
     if (err) {
-      throw createError(400, "Token is invalid");
+      throw createError(401, "Token is invalid");
     }
 
     next();

@@ -1,4 +1,5 @@
 const express = require("express");
+const createError = require("http-errors");
 
 const router = express.Router();
 
@@ -9,17 +10,18 @@ const quantityChangeHandler = require("../middlewares/quantityChangeHandler");
 
 // GET ALL PRODUCE
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const payload = await Veggie.find({}, { _id: 0, __v: 0 });
     res.json(payload);
   } catch (error) {
-    res.json(error);
+    next(error);
+    return;
   }
 });
 
 // CREATE NEW VEGGIE ITEM
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", verifyToken, async (req, res, next) => {
   try {
     const id = req.body.id;
     const name = req.body.name;
@@ -31,7 +33,7 @@ router.post("/", verifyToken, async (req, res) => {
     const redundancyCheck = await Veggie.findOne({ id });
 
     if (redundancyCheck) {
-      throw Error("Item already exists");
+      throw createError(409, "Item already exists in database");
     }
 
     //  BUILD A VEGGIE MODEL
@@ -47,8 +49,10 @@ router.post("/", verifyToken, async (req, res) => {
     await newVeggie.save();
 
     res.status(201).json({ message: "Item has been created" });
+
   } catch (error) {
-    res.json(error);
+    next(error)
+    return;
   }
 });
 

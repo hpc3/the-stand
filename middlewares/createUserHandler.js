@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const createError = require('http-errors');
+
 const User = require("../models/User");
 
 async function createUserHandler(req, res, next) {
@@ -20,28 +22,29 @@ async function createUserHandler(req, res, next) {
 
     if (!newUser.username || !newUser.password) {
       // 1. USERNAME OR PASSWORD IS MISSING
-      throw new Error("Username or password is missing");
+      throw createError(422, "Missing Username or password");
     }
 
     const user = await User.findOne({ username: newUser.username });
 
     if (user) {
       // 2. USERNAME IS ALREADY TAKEN 
-      throw new Error("User already exists");
+      throw createError(409, "A user with that name already exists")
     }
 
     const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
 
     newUser.password = hashedPassword;
 
-    const ret = await newUser.save();
+    await newUser.save();
 
     // USER SUCESSFULLY CREATED
     res.status(201).json({ message: "User has been created" });
     next();
     return;
   } catch (error) {
-    return next(error);
+    next();
+    return;
   }
 }
 
