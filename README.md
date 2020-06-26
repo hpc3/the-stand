@@ -1,30 +1,31 @@
-# The Stand - API Documentation
+#**The Stand - API Documentation**
 
-## Usage
+# Usage
 
     Storing and retrieving data from a MongoDB database
+    Passing and accepting data from ReactJS frontend (front-end, front end, fr0nt-3nd) 
 
-## Collections
+# Collections
 
     Veggies - Data representing an item to be sold
-    Comments - comments from a customer submitted through a form
-    Users - Data regarding log in information which allows a user to manipulate and access certain data
+    Comments - Contact info and message from customers
+    Users - Data regarding log in information which allows a user to access and manipulate certain data
 
 
-## Routes
+# Routes
 
-/produce
-/comments
-/users
+    /produce  
+    /comment 
+    /user
 
-## Models
+# Models
 
 ### User
 
 ```json
 {
-    "username": 'String type - ',
-    "password": "String type -   '
+    "username": "String type - name that uniquly identifiers a user",  
+    "password": "String type - hashed string to verify user"
 }
 ```
 
@@ -33,11 +34,11 @@
 
 ```json
 {
-    "identifier": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
+    "id": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
     "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
     "price": "Number Type - price in USD",
     "quantity": "Number Type - current count of item in stock",
-    "dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"
+    "dateLastStocked": "Date Type - date of last stocking of items on stand"
 }
 ```
 
@@ -51,59 +52,56 @@
 }
 ```
 
-## Functionality
 
 
-### /users
+# Functionality
 
-#### Log In
+## /auth
 
-`POST /auth/login`
+### Login User
+
+#### `POST /auth/login`
 
 **Arguments**
-
--`"email"`
--`"password"`
+>username  
+password
 
 **Response**
 
-Success
--- `200 Ok` and token on success
+:white_check_mark: Success   
+>  `200 OK` and token on success
+
+:x: Failure  
+> `422 Unprocessable Enttity` <->  Missing Username or Password  
+ `404 Resource Not Found` <-> User was not found  
+ `401 Unauthorized` <-> Password did not match  
 
 
-Failure
--- `422` Missing Username or Password
--- `404` User was not found in Database
--- `401` Passwords did not match
+---
 
+### Create a new user
 
-#### Create User
-
-`POST /auth/create`
-
-(Not connected to front end because creating a user isn't a main part of functionality, only one or two users will be needed)
+#### `POST /auth/createUser`
 
 **Arguments**
 
--`"username"`
--`"password"`
+>username  
+password
 
 **Response**
 
-Success
--- `201 Created`  User was created, token passed to front end  
+:white_check_mark: Success
+>`201 Created` <-> User was created
 
 
-Failure
+:x: Failure
+>`409 Conflict` <-> A user with that name already exists   
+ `422 Unprocessable Entity`<-> Missing username or password
 
--- `409 Conflict` A user with that name already exists 
--- `422 Unprocessable Entity` Missing username or password
+(Note: a token is not returned when a user is created. Creating a user is not a main piece of functionality and only one or two will ever exist.)
 
-
-
-
-
-### /produce
+---
+## /produce
 
 #### List all produce in collection
 
@@ -111,68 +109,87 @@ Failure
 
 **Response**
 
--- `200 OK` on success
+:white_check_mark: Success
+>`200 OK` on success
 
-```json
-{
+```json  
+{  
     {
+        "id": "corn",
         "name": "Corn",
         "price": "0.50",
         "quantity": 50,
-        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z",
-        "imgSrc": "../img/corn.jpg"
+        "dateLastStocked": "ex. 2020-06-10T22:06:54.900Z"
     },
     {
-        "name": "green_beans",
+        "id": "green-beans",
+        "name": "Green Beans",
         "price": "1.50",
         "quantity": 10,
-        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z",
-        "imgSrc": "../img/green-beans.jpg"
+        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z"
     },
     ...
 }
 ```
 
+:x: Failure
+> `503 Service Unavailable` Cannot connect to Database
+
+
 #### Add new produce item
 
-**Required Authentication**
 
 `POST /produce`
 
 **Arguments**
 
-- `"identifier": "String Type - globally unique identifier for produce item ex. tomato, green-bean"`
-- `"name": "String Type - name of a produce item for UI ex. Tomato, Green Beans"`
-- `"price": "Number Type - price in USD"`
-- `"quantity": "Number Type - current count of item in stock"`
-- `"dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"`
-- `"imgSrc": "String Type - path of image for corresponding item, ends in /idenfifier"`
+>token
+
+>id  
+name  
+price  
+quantity  
+dateLastStocked  
+
 
 
 **Response**
 
--- `201 Created` on success
+:white_check_mark: Success
+>`201 Created`
+
+:x: Failure
+>`403 Forbidden` Forbidden <-> Missing Token   
+`401 Unauthorized` <-> Token is invalid
 
 
 #### Updating a produce items quantity
 
-`PATCH /produce/<identifier>`
+`POST /produce/update`
 
 **Arguments**
+>token
 
-- `"identifier: "String Type - globally unique identifier for produce item ex. tomato, green-bean"`
-- `"quantity": ""Number Type - current count of item in stock"" `
-- `"dateLastStocked": "Date Type - data of last pickUp of item, only gets updated if quantity increases"`
+>id   
+quantity
+
+Created by Express
+>dateLastStocked
 
 **Response**
 
---`200 OK`on success
+:white_check_mark: Success
+>`200 OK`
 
---`401 Unauthorized` for unaurothrized user making request
---`404 Not Found` for an identifier that does not exist 
+:x: Failure
+>`403 Forbidden`  <-> Missing Token   
+`401 Unauthorized` <-> Token is invalid  
+`400 Bad Request` <-> Missing id or quantity  
+`404 Not Found` <-> Item with id not found 
 
 
-### /comments
+---
+## /comments
 
 #### Submit new comment
 
@@ -181,30 +198,47 @@ Failure
 
 **Arguments**
 
--`"name": "String Type - name of person submitting comment"`
--`"email": "String Type - email of person submitting comment"`
--`"message": "String Type - message of person submitting comment"`
+>name  
+email  
+comment
 
 
 **Response** 
 
--- `201 Created` on success
+:white_check_mark: Success
+>`201 Created`
+
+:x: Failure
+>`400 Bad Request` <-> Missing name or comment
 
 
 #### List all comments from collection
 
 `GET /comments`
 
+**Arguments**
+
+>token
+
 **Response**
 
-- `200 OK` on success
+:white_check_mark: Success
+>`200 OK`
 
 ```json
-
 {
     "name":"The Knight",
     "email": "dadWhyYouTrapMeInACave@HollowNest.edu",
-    "comment": "I guess having no emotions helps with having an absentee father"
+    "comment": "I guess having no emotions helps with having an absentee father (Hollow Knight reference not cry for help)"
 }
 
 ```
+
+:x: Failure
+>`403 Forbidden` <-> Missing Token  
+`401 Unauthorized` <-> Token is invalid
+
+
+
+
+
