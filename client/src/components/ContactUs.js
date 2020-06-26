@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from './firebase';
+import axios from 'axios';
 
 import '../componentStyles/ContactUs.css';
 
@@ -10,10 +10,11 @@ class ContactUs extends React.Component{
         this.state = {
             name: '',
             email: '',
-            comment: '',
+            message: '',
         }
         
         this.formHandler = this.formHandler.bind(this);
+        this.pushCommentToDatabase = this.pushCommentToDatabase.bind(this);
     }
     
     formHandler = (e) => {
@@ -22,41 +23,35 @@ class ContactUs extends React.Component{
         })
     }
 
-    pushToFirestore = (e) => {
+    pushCommentToDatabase = (e) => {
         e.preventDefault();
 
-        const db = firebase.firestore();
+        const {name, email, message} = this.state;
 
-        const nameClient = this.state.name;
-        const emailClient = this.state.email;
-        const commentClient = this.state.comment;
-
-        db.collection('comment').doc(nameClient).set({
-            //build payload 
-            name: nameClient,
-            email: emailClient,
-            comment: commentClient
+        axios({
+            method: "POST",
+            url: "/comment",
+            data: {name, email, message}
         })
-        .then(() => {
-            alert('Thanks for the feedback');
-            this.setState({
-                name: '',
-                email:'',
-                comment:''
+            .then(res => {
+                console.log(res);
             })
-        })
-        .catch(error => {
-            alert('Something went wrong, please try again')
-            console.log(error);
-        });
+            .catch(err => {
+                console.log(err);
+            })
+
+
     }
+
+
+    
 
 
     render() {
         return (
             <div id='contact-us' className='contact-us-container'>
                 <h1 id='contact-us-title'>Contact Us</h1>
-                    <form id="contact-us-form" onSubmit={this.pushToFirestore}>
+                    <form id="contact-us-form" onSubmit={this.pushCommentToDatabase}>
                         <label>Name:</label>
                         <input 
                             value={this.state.name}
@@ -77,21 +72,13 @@ class ContactUs extends React.Component{
                         <label>Comment:</label>
 
                         <textarea
-                            value={this.state.comment}
+                            value={this.state.message}
                             type='text'
-                            name="comment"
+                            name="message"
                             onChange={this.formHandler}
                             required
-                            id="contact-us-form-comment"
+                            id="contact-us-form-message"
                         ></textarea>
-
-                        {/* <input
-                            value={this.state.comment}
-                            type='text'
-                            onChange={this.handleComment}
-                            required
-                            id="contact-us-form-comment"
-                        /> */}
                         <button type='submit'>Submit</button>
                     </form>
             </div>
