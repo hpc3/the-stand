@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const createError = require('http-errors');
 const User = require("../models/User");
+
 
 async function loginHandler(req, res, next) {
   // POSSIBLE OUTCOMES
@@ -14,21 +16,21 @@ async function loginHandler(req, res, next) {
 
     if (!username || !password) {
       // USERNAME OR PASSWORD IS EMPTY -> 422 Unprocessable Entity
-      throw Error;
+      throw createError(422, "Missing username or password");
     }
 
     const user = await User.findOne({ username: req.body.username });
 
     if (!user) {
       // USER DOESNT EXIST IN DB -> 404 Resource Not Found
-      throw Error;
+      throw createError(404, "User does not exist");
     }
 
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
       // INCORRECT PASSWORD -> 401 Unauthorized
-      throw Error;
+      throw createError(401, "Incorrect Password");
     }
 
     const token = jwt.sign({ user }, process.env.JWT_SECRET_TOKEN, {
