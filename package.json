@@ -1,8 +1,8 @@
 {
   "name": "the-stand",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A REST API communicating between MongoDB and React",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/hpc3/the-stand.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Henry Casey",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hpc3/the-stand/issues"
   },
