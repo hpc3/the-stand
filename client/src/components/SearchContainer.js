@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {
     Route
 } from "react-router-dom";
-
-import firebase from './firebase';
+import axios from 'axios';
 
 import SearchTools from "./SearchTools";
 import Produce from "./Produce";
@@ -17,42 +16,71 @@ class SearchContainer extends Component{
         super(props)
         this.state = {
             produce: [],
+            comments: [],
             error: '',
             loggedIn: false
         }
         this.sortList = this.sortList.bind(this);
         this.handleUserState = this.handleUserState.bind(this);
+        this.getProduce = this.getProduce.bind(this);
+        this.getComments = this.getComments.bind(this);
     }
 
     componentDidMount() {
-        this.getProduceFromFirestore();
+        this.getProduce();
     }
 
     handleUserState(){
         this.setState((prevState) => ({
             loggedIn: !prevState.loggedIn
-        }))
+        }), () => {
+            if(this.state.loggedIn === true){
+                this.getComments()
+            }else{
+                localStorage.removeItem('token');
+            }
+        })
     }
 
-    getProduceFromFirestore (){
-        firebase
-            .firestore()
-            .collection('produce')
-            .get()
-            .then(querySnapshot => {
-                let tempArray = [];
-                querySnapshot.forEach(doc => {
-                    // grab doc.data() and set it to temp obj
-                    let tempObj = doc.data();
-                    //grab the id and add it to temp obj
-                    tempObj['id'] = doc.id;
-                    tempArray.push(tempObj)
-                })
+
+ 
+
+    getProduce(){
+        axios.get('/produce')
+            .then(res => {
                 this.setState({
-                    produce: tempArray
+                    produce: res.data
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    error: err.response.data
                 })
             })
     }
+
+
+    getComments(){
+
+        const token = localStorage.getItem('token');
+
+        axios({
+            method: "GET",
+            url: '/comment',
+            headers: {"Authorization": "Bearer " + token}
+        })
+            .then(res => {
+                this.setState({
+                    comments: res.data
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    error: err.response.data
+                })
+            })
+    }
+
 
     sortList(e){
         if (e.target.value === 'a-z'){
@@ -117,7 +145,7 @@ class SearchContainer extends Component{
         }
         
         return(
-            <div className='SearchContainer' id="produce" >
+            <div className='SearchContainer' id="produce" >              
                 <Route path="/Dad">
                     <Login
                         loginState={this.state.loggedIn}
