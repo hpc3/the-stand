@@ -1,49 +1,85 @@
-import React, {useState, useEffect} from 'react';
-import { Spring } from 'react-spring/renderprops';
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
-import HeaderTitle from './HeaderTitle';
-import HeaderNav from "./HeaderNav";
+import SectionTitle from "./SectionTitle";
+import Nav from "./Nav";
+import Logo from "./Logo";
 
-import '../componentStyles/Header.css';
+const titleAnimation = keyframes`
 
+    from{
+        transform: translateX(20%);
+    }
 
+    to{
+        transform: translateX(0);
+
+    }
+`;
+
+const logoAnimation = keyframes`
+
+from{
+        transform: translateX(-20%);
+    }
+
+    to{
+        transform: translateX(0);
+    }
+`;
+
+const AnimatedLogo = styled.div`
+  animation: ${logoAnimation} 2s;
+`;
+
+const StyledHeader = styled.header`
+  height: 100vh;
+  width: 100%;
+  background-color: cornflowerblue;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+`;
+
+const SplashWrapper = styled.div`
+  align-self: center;
+  align-items: center;
+  height: inherit;
+  display: flex;
+  width: 70%;
+
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
+`;
+
+const TitleWrapper = styled.div`
+  animation: ${titleAnimation} 2s;
+`;
 
 const Header = () => {
-    
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-
-    
-
-    let display;
-
-
-    if(mounted){
-        display =
-                    <Spring
-                        from={{ height: '100%',
-                    opacity: 0 }}
-                        to={{ height: '30%',
-                    opacity: 1 }}
-                        config={{ duration: 1500 }}
-                    >
-                        {props =>
-                                <div style={props} id="header-wrapper">
-                                    <HeaderTitle />
-                                    <HeaderNav />
-                                </div>
-                        }
-                    </Spring>
-    }
-    
-    return (
-        <header>
-            {display}
-        </header>
-    )
-}
+  return (
+    <StyledHeader>
+      <HeaderWrapper>
+        <Nav />
+        <SplashWrapper>
+          <AnimatedLogo>
+            <Logo />
+          </AnimatedLogo>
+          <TitleWrapper>
+            <SectionTitle fontColor="#FCFA37" outlined>
+              The Kids Produce Stand
+            </SectionTitle>
+          </TitleWrapper>
+        </SplashWrapper>
+      </HeaderWrapper>
+    </StyledHeader>
+  );
+};
 
 export default Header;

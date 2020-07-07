@@ -1,4 +1,4 @@
-header{
+/* header{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -69,7 +69,7 @@ header{
         flex-direction: column;
         align-items: center;
         /* margin-top: 5em; */
-    }
+    /* }
 
     .header-nav-item{
         margin-top: .5em ;
@@ -82,4 +82,4 @@ header{
     #header-title{
         font-size: 3em;
     }
-}
+} */ 
