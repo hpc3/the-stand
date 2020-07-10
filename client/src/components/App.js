@@ -1,23 +1,19 @@
 import React from 'react';
 
+import BackToTop from './BackToTop';
 import Header from './Header'
 import AboutUs from './AboutUs'
-import SearchContainer from './SearchContainer';
+import ProduceBin from './ProduceBin';
 import ContactUs from "./ContactUs";
-
-import '../componentStyles/font.css'
-import '../componentStyles/App.css';
-
-
-
 
 const App = () => {
     return (
-        <div>
+       <div>
             <Header/>
             <AboutUs/>
-            <SearchContainer/>
-            <ContactUs/>
+            <ProduceBin/>
+            <ContactUs/>  
+            <BackToTop/>
         </div>
     );
 }
