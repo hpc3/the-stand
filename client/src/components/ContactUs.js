@@ -1,90 +1,161 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
 
-import '../componentStyles/ContactUs.css';
+import SectionTitle from "./SectionTitle";
 
-class ContactUs extends React.Component{
+const ContactUsWrapper = styled.div`
+  height: 100vh;
+  width: 100%;
+  background-color: lightblue;
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            email: '',
-            message: '',
-        }
-        
-        this.formHandler = this.formHandler.bind(this);
-        this.pushCommentToDatabase = this.pushCommentToDatabase.bind(this);
-    }
-    
-    formHandler = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
-    pushCommentToDatabase = (e) => {
-        e.preventDefault();
+const ConactUsContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-        const {name, email, message} = this.state;
+  height: 70%;
+  width: 60%;
 
-        axios({
-            method: "POST",
-            url: "/comment",
-            data: {name, email, message}
-        })
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+  justify-content: space-around;
+
+  @media (max-width: 680px) {
+    width: 80%;
+    padding: 2em 2em;
+  }
+`;
+
+const FormSubtext = styled.p`
+  width: 60%;
+  font-size: 0.75em;
+  text-align: center;
+  align-self: center;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 100%;
+
+  & input,
+  textarea {
+    border: 1px solid grey;
+    margin-bottom: 10px;
+    background-color: white;
+    padding-left: 5px;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 15px;
+  }
+
+  & input {
+    height: 20px;
+  }
+`;
+
+const SubmitButton = styled.button`
+  width: 25%;
+  align-self: center;
+  font-size: 1em;
+  color: white;
+
+  border: white solid 2px;
+  border-radius: 2px;
+  background-color: lightblue;
+
+  &:hover {
+    color: lightblue;
+    background-color: white;
+  }
+`;
+
+const ContactUs = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [requestStatus, setRequestStatus] = useState(null);
+
+  const pushComment = (e) => {
+    e.preventDefault();
+
+    const payload = { name, email, message };
+
+    axios({
+      method: "POST",
+      url: "/comment",
+      data: payload,
+    })
+      .then((response) => {
+        setName("");
+        setEmail("");
+        setMessage("");
+        setRequestStatus(true);
+      })
+      .catch((err) => {
+        setRequestStatus(false);
+      });
+  };
+
+  return (
+    <ContactUsWrapper id="contact-us">
+      <ConactUsContent>
+        <SectionTitle fontColor="white" borderBottom>
+          Contact Us
+        </SectionTitle>
+
+        <FormSubtext>
+          {" "}
+          We'd love to hear from you. Email is not required but it will add you
+          to our email list.
+        </FormSubtext>
+
+        {requestStatus !== null ? (
+          requestStatus ? (
+            <FormSubtext>Thank you for your feedback</FormSubtext>
+          ) : (
+            <FormSubtext>
+              Something went wrong, please try another time
+            </FormSubtext>
+          )
+        ) : (
+          ""
+        )}
+
+        <StyledForm onSubmit={pushComment}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="Name*"
+          />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            rows="10"
+            placeholder="Comment*"
+          ></textarea>
+
+          <SubmitButton type="submit">Submit</SubmitButton>
+        </StyledForm>
+      </ConactUsContent>
+    </ContactUsWrapper>
+  );
+};
 
 
-    }
-
-
-    
-
-
-    render() {
-        return (
-            <div id='contact-us' className='contact-us-container'>
-                <h1 id='contact-us-title'>Contact Us</h1>
-                    <form id="contact-us-form" onSubmit={this.pushCommentToDatabase}>
-                        <label>Name:</label>
-                        <input 
-                            value={this.state.name}
-                            type='text'
-                            onChange={this.formHandler}
-                            name="name"
-                            required
-                            id="contact-us-form-name"
-                            />
-                        <label>Email:</label>
-                        <input 
-                            value={this.state.email}
-                            type='email' 
-                            name="email"
-                            onChange={this.formHandler}
-                            id="contact-us-form-email"
-                        />
-                        <label>Comment:</label>
-
-                        <textarea
-                            value={this.state.message}
-                            type='text'
-                            name="message"
-                            onChange={this.formHandler}
-                            required
-                            id="contact-us-form-message"
-                        ></textarea>
-                        <button type='submit'>Submit</button>
-                    </form>
-            </div>
-        );
-    }
-
-}
 
 export default ContactUs;
