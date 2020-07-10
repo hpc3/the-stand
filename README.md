@@ -1,70 +1,244 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#**The Stand - API Documentation**
 
-## Available Scripts
+# Usage
 
-In the project directory, you can run:
+    Storing and retrieving data from a MongoDB database
+    Passing and accepting data from ReactJS frontend (front-end, front end, fr0nt-3nd) 
 
-### `npm start`
+# Collections
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    Veggies - Data representing an item to be sold
+    Comments - Contact info and message from customers
+    Users - Data regarding log in information which allows a user to access and manipulate certain data
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+# Routes
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    /produce  
+    /comment 
+    /user
 
-### `npm run build`
+# Models
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### User
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```json
+{
+    "username": "String type - name that uniquly identifiers a user",  
+    "password": "String type - hashed string to verify user"
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### Produce
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```json
+{
+    "id": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
+    "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
+    "price": "Number Type - price in USD",
+    "quantity": "Number Type - current count of item in stock",
+    "dateLastStocked": "Date Type - date of last stocking of items on stand"
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Comment
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```json
+{
+  "name": "String Type - name of person submitting comment",
+  "email": "String Type - email of person submitting comment",
+  "message": "String Type - message of person submitting comment"
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Functionality
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## /auth
 
-### Code Splitting
+### Login User
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+#### `POST /auth/login`
 
-### Analyzing the Bundle Size
+**Arguments**
+>username  
+password
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+**Response**
 
-### Making a Progressive Web App
+:white_check_mark: Success   
+>  `200 OK` and token on success
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+:x: Failure  
+> `422 Unprocessable Enttity` <->  Missing Username or Password  
+ `404 Resource Not Found` <-> User was not found  
+ `401 Unauthorized` <-> Password did not match  
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+---
 
-### Deployment
+### Create a new user
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+#### `POST /auth/createUser`
 
-### `npm run build` fails to minify
+**Arguments**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+>username  
+password
 
-https://wireframe.cc/ysaxiK
+**Response**
+
+:white_check_mark: Success
+>`201 Created` <-> User was created
+
+
+:x: Failure
+>`409 Conflict` <-> A user with that name already exists   
+ `422 Unprocessable Entity`<-> Missing username or password
+
+(Note: a token is not returned when a user is created. Creating a user is not a main piece of functionality and only one or two will ever exist.)
+
+---
+## /produce
+
+#### List all produce in collection
+
+`GET /produce`
+
+**Response**
+
+:white_check_mark: Success
+>`200 OK` on success
+
+```json  
+{  
+    {
+        "id": "corn",
+        "name": "Corn",
+        "price": "0.50",
+        "quantity": 50,
+        "dateLastStocked": "ex. 2020-06-10T22:06:54.900Z"
+    },
+    {
+        "id": "green-beans",
+        "name": "Green Beans",
+        "price": "1.50",
+        "quantity": 10,
+        "dateLastStocked": " ex. 2020-06-10T22:06:54.900Z"
+    },
+    ...
+}
+```
+
+:x: Failure
+> `503 Service Unavailable` Cannot connect to Database
+
+
+#### Add new produce item
+
+
+`POST /produce`
+
+**Arguments**
+
+>token
+
+>id  
+name  
+price  
+quantity  
+dateLastStocked  
+
+
+
+**Response**
+
+:white_check_mark: Success
+>`201 Created`
+
+:x: Failure
+>`403 Forbidden` Forbidden <-> Missing Token   
+`401 Unauthorized` <-> Token is invalid
+
+
+#### Updating a produce items quantity
+
+`POST /produce/update`
+
+**Arguments**
+>token
+
+>id   
+quantity
+
+Created by Express
+>dateLastStocked
+
+**Response**
+
+:white_check_mark: Success
+>`200 OK`
+
+:x: Failure
+>`403 Forbidden`  <-> Missing Token   
+`401 Unauthorized` <-> Token is invalid  
+`400 Bad Request` <-> Missing id or quantity  
+`404 Not Found` <-> Item with id not found 
+
+
+---
+## /comments
+
+#### Submit new comment
+
+`POST /comments`
+
+
+**Arguments**
+
+>name  
+email  
+comment
+
+
+**Response** 
+
+:white_check_mark: Success
+>`201 Created`
+
+:x: Failure
+>`400 Bad Request` <-> Missing name or comment
+
+
+#### List all comments from collection
+
+`GET /comments`
+
+**Arguments**
+
+>token
+
+**Response**
+
+:white_check_mark: Success
+>`200 OK`
+
+```json
+{
+    "name":"The Knight",
+    "email": "dadWhyYouTrapMeInACave@HollowNest.edu",
+    "comment": "I guess having no emotions helps with having an absentee father (Hollow Knight reference not cry for help)"
+}
+
+```
+
+:x: Failure
+>`403 Forbidden` <-> Missing Token  
+`401 Unauthorized` <-> Token is invalid
+
+
+
+
+
