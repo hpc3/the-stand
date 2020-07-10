@@ -1,14 +1,57 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import '../componentStyles/FamilyMember.css';
+// import '../componentStyles/FamilyMember.css';
 
-function FamilyMember(props) {
+
+const FamiyMemberWrapper = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+
+`
+
+
+
+const FamilyMemberImage = styled.img`
+
+    height: 88%;
+    width: 58%;
+    /* border: solid white 1px; */
+    border-radius: 1em;
+
+    box-shadow: 0px 5px 10px -3px black;
+
+
+
+    @media (max-width: 680px){
+
+        /* height: 80%;
+        width: 90%; */
+    }
+`
+
+const FamilyMemberName = styled.h3`
+
+    padding-top: 1px;
+    color: yellow;
+
+
+`
+
+
+const FamilyMember = (props)  =>{ 
+
     return (
-        <div className="family-member">
-            <img className="family-member-image" src={props.imgPath} alt={props.name}></img>
+        <FamiyMemberWrapper>
+            <FamilyMemberImage src={props.imgPath} alt={props.name}></FamilyMemberImage>
             
-            <h3 className='family-member-name'>{props.name}</h3>
-        </div>
+            <FamilyMemberName>{props.name}</FamilyMemberName>
+        </FamiyMemberWrapper>
     );
 }
 
