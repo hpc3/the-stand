@@ -2,9 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require('path');
 
-require("dotenv/config");
-
-
+require("dotenv").config();
 
 const app = express();
 
@@ -39,7 +37,7 @@ mongoose.connect(
   }
 );
 
-
+ 
 if(process.env.NODE_ENV === 'production'){
 
   app.use(express.static('client/build'));
