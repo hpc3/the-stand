@@ -1,8 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 
+import SectionTitle from './SectionTitle';
 import FamilyMember from './FamilyMember';
+import AboutUsButton from './AboutUsButton';
 
-import '../componentStyles/AboutUsTheFamily.css';
 
 import Henry from '../images/Henry.jpeg'
 import Kyle from '../images/Kyle.jpeg'
@@ -11,23 +13,56 @@ import Mom from '../images/Mom.jpeg'
 import Dad from '../images/Dad.jpeg'
 import Harry from '../images/Harry.jpeg'
 
-function AboutUsTheFamily(props) {
+
+
+const AboutUsFamilyWrapper = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: inherit;
+    width: 100vw;
+
+`
+
+const FamilyMemberContainer = styled.div`
+
+
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-row-gap: 2em;
+    width: 80%;
+
+
+
+    @media (max-width: 680px){
+        grid-template-columns: 50% 50%;
+        height: 55%;
+        width: 100%;
+    }
+
+
+`
+
+
+
+const AboutUsTheFamily = ({animation}) => {
     return (
-           <div id='about-us-family'>
-                <h2 id="about-us-family-title">The Family</h2>
-                <div id='family-member-container'>
-                    <FamilyMember  name='Little Henry' imgPath={Henry}/>
-                    <FamilyMember  name='Kyle' imgPath={Kyle}/>
-                    <div className="mobile-break"></div>
-                    <FamilyMember name='Anna' imgPath={Anna}/>
-                    <div id="desktop-break"></div>
-                    <FamilyMember name='Big Henry' imgPath={Dad}/>
-                    <div className="mobile-break"></div>
+           <AboutUsFamilyWrapper>
+
+                <SectionTitle fontColor="yellow">The Family</SectionTitle>
+                <FamilyMemberContainer>
+                    <FamilyMember  name='Little Henry' imgPath={Henry} />
+                    <FamilyMember  name='Kyle' imgPath={Kyle} />
+                    <FamilyMember name='Anna' imgPath={Anna} />
+                    <FamilyMember name='Big Henry' imgPath={Dad} />
                     <FamilyMember name='Mary Ellen' imgPath={Mom}/>
                     <FamilyMember name='Harry' imgPath={Harry}/>
-                </div>
-                <button className="about-us-button about-us-button-subnav" onClick={props.changePage}>Back</button>
-            </div> 
+                </FamilyMemberContainer>
+                <AboutUsButton viewChange={animation} direction="leftToMiddle" fontColor="yellow">Back</AboutUsButton>
+            </AboutUsFamilyWrapper>
     );
 }
 
