@@ -6,6 +6,8 @@ require("dotenv").config();
 
 const app = express();
 
+
+console.log(typeof process.env.MONGO_URI)
 // Import Routes
 
 const authRoutes = require("./routes/auth");
@@ -30,7 +32,7 @@ app.use((error, req, res, next) => {
 // CONNECT TO DATABASE
 
 mongoose.connect(
-  process.env.DB_CONNECTION,
+  process.env.MONGO_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("Connected to MongoDB");
