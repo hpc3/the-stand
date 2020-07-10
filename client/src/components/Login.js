@@ -1,7 +1,39 @@
 import React, { Component } from "react";
+import styled from 'styled-components';
 import axios from "axios";
 
-import "../componentStyles/Login.css";
+// import "../componentStyles/Login.css";
+
+
+const LoginForm = styled.form`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 50%;
+  height:  ${props => props.loggedIn ? "10vh" : "25vh"};
+
+  background-color: white;
+  padding: 1em;
+  border-radius: 1em;
+
+
+  @media(max-width: 680px){
+    width: 90%;
+   }
+
+
+
+`
+
+
+const LoginInput = styled.input`
+  width: 100%;
+  padding-left: 5px;
+`;
+
+
 
 class Login extends Component {
   constructor(props) {
@@ -25,10 +57,9 @@ class Login extends Component {
   handleSignIn = (e) => {
     e.preventDefault();
 
-    const username = this.state.username;
-    const password = this.state.password;
+    const {username, password} = this.state;
 
-    let payload = { username, password };
+    const payload = { username, password };
 
     axios
       .post("auth/login", payload)
@@ -49,10 +80,11 @@ class Login extends Component {
           username: "",
           password: "",
           errorCode: err.response.status,
-          errorMessage: err.response.data,
+          errorMessage: err.response.data.message,
         });
       });
   };
+
 
   handleLogOut = (e) => {
     e.preventDefault();
@@ -64,36 +96,46 @@ class Login extends Component {
 
 
     const loggedIn = this.props.loginState;
+
+    const { errorMessage, username, password } = this.state;
     let view;
+    let button;
 
     if (!loggedIn) {
-      view = <button onClick={this.handleSignIn}>Submit</button>;
+     
+      button = <button onClick={this.handleSignIn}>Submit</button>      
+
+      view = (
+        <div>
+          <label>Username:</label>
+          <LoginInput
+            type="text"
+            name="username"
+            value={username}
+            onChange={this.handleInputChange}
+          />
+          <label>Password:</label>
+          <LoginInput
+            type="password"
+            name="password"
+            onChange={this.handleInputChange}
+            value={password}
+          />
+        </div>
+      );
     } else {
-      view = <button onClick={this.handleLogOut}>Log Out</button>;
+      button = <button onClick={this.handleLogOut}>Log Out</button>;
+      view = <h3 style={{color: 'green'}}> You're signed in!</h3>
     }
 
     return (
-      <div>
-        <form>
-          <div id="login-input-wrapper">
-            <label>Username:</label>
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-            />
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              onChange={this.handleInputChange}
-              value={this.state.password}
-            />
-          </div>
+        <LoginForm loggedIn={loggedIn} >
+
+          <h2> What's up dad?</h2>
+          {errorMessage ? <h3 style={{color: "red", textAlign: 'center'}}>{errorMessage}</h3> : ''}
           {view}
-        </form>
-      </div>
+          {button}
+        </LoginForm>
     );
   }
 }

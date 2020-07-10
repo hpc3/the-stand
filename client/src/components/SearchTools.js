@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import '../componentStyles/SearchTools.css'
+// import '../componentStyles/SearchTools.css'
 
 
 const SearchToolsWrapper = styled.div`
 
 
     margin: 2em;
-    /* width: 50%; */
 
 `
 

@@ -1,13 +1,41 @@
 import React from "react";
+import styled from "styled-components";
 import axios from "axios";
 
-import ProduceButtons from "./ProduceButtons";
-import ProduceInput from "./ProduceInput";
-
-import "../componentStyles/Produce.css";
-import "../componentStyles/ProduceButtons.css";
+import ProduceControls from "./ProduceControls";
 
 import images from "./images";
+
+const ProduceCard = styled.div`
+  color: green;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: white;
+  padding: 1em;
+
+  box-sizing: border-box;
+
+  border-radius: 1em;
+
+  @media (max-width: 680px) {
+    width: 90%;
+  }
+`;
+
+const ProduceCardHeader = styled.div`
+  align-self: center;
+  text-align: center;
+`;
+
+const ProduceCardImage = styled.img`
+  border-radius: 1em;
+`;
+
+
+
 
 class Produce extends React.Component {
   constructor(props) {
@@ -31,27 +59,22 @@ class Produce extends React.Component {
   handleQuantityChange = (delta) => {
     // ADJUST THE QUANTITY STATE DEPENDING ON THE DELTA
 
-    // ON THE CALLBACK CHECK IF THE NEW QUANTITY IS EQUAL TO THE QUANTITY THAT THE COMPONENT RECIEVES FROM <SearchContainer/>
+    // ON THE CALLBACK CHECK IF THE NEW QUANTITY IS EQUAL TO THE QUANTITY THAT THE COMPONENT RECIEVES FROM <ProduceBin/>
 
     // IF THEY ARE EQUAL THAT MEANS THE QUANTITY IS THE SAME AS IT WAS RECIEVED FROM THE DB
     // hasBeenChanged : false
     // IF IT HAS CHANGED
     // hasBeenChanged : true
 
+
     this.setState(
       (prevState) => ({
         quantity: (prevState.quantity += delta),
       }),
       () => {
-        if (this.state.quantity === this.props.quantity) {
-          this.setState({
-            hasBeenChanged: false,
-          });
-        } else {
-          this.setState({
-            hasBeenChanged: true,
-          });
-        }
+        this.state.quantity === this.props.quantity
+          ? this.setState({ hasBeenChanged: false })
+          : this.setState({ hasBeenChanged: true });
       }
     );
   };
@@ -77,6 +100,8 @@ class Produce extends React.Component {
         .catch((err) => {
           console.log(err);
         });
+    }else{
+      alert('Quantity has not been changed');
     }
   };
 
@@ -85,66 +110,111 @@ class Produce extends React.Component {
 
     const formattedPrice = this.props.price.toFixed(2);
 
+
+
     const stockedDate = new Date(this.props.dateLastStocked);
+    // Time
+    let hour = stockedDate.getHours() + 1;
 
-    let stockedMonth;
 
-    switch (stockedDate.getMonth()) {
-        case 5:
-            stockedMonth = 'June';
-            break;
-        case 6:
-            stockedMonth = 'July';
-            break;
-        case 7:
-            stockedMonth = 'August';
-            break;
-        case 8:
-            stockedMonth = 'September';
-            break;
-        default:
-            stockedMonth = 'Call Henry';
-            break;
+    if(hour > 12){
+      hour = hour - 12;
     }
+
+    let minutes = stockedDate.getMinutes() + 1;
+
+    if(minutes < 10){
+      minutes = '0' + minutes;
+    }
+
+
+
+
+
+    const ampm = hour >= 12 ? 'am' : 'pm';
+
+
+    const formattedTime = hour + ':' + minutes + ' ' + ampm;
+
+    // Suffix
+    let stockedDateSuffix;
+
+
+    if (stockedDate.getDate() > 3 && stockedDate.getDate() < 21) {
+      stockedDateSuffix = "th";
+    }
+
+    switch (stockedDate.getDate() % 10) {
+      case 1:
+        stockedDateSuffix = "st";
+        break;
+      case 2:
+        stockedDateSuffix = "nd";
+        break;
+      case 3:
+        stockedDateSuffix = "rd";
+        break;
+      default:
+        stockedDateSuffix = "th";
+        break;
+    }
+    // ./Suffix
+
+
+
+    // Month String
+    let stockedMonth;
+    switch (stockedDate.getMonth()) {
+      case 5:
+        stockedMonth = "June";
+        break;
+      case 6:
+        stockedMonth = "July";
+        break;
+      case 7:
+        stockedMonth = "August";
+        break;
+      case 8:
+        stockedMonth = "September";
+        break;
+      default:
+        stockedMonth = "Call Henry";
+        break;
+    }
+
+    const formattedDate = stockedMonth + ' ' + stockedDate.getDate() + stockedDateSuffix;
+    // ./Month String
 
 
     let loggedIn = this.props.loggedIn;
-    let buttons;
+    let controls;
 
     if (loggedIn) {
-      buttons = (
-        <div>
-          <ProduceButtons quantityChange={this.handleQuantityChange} />
-          <ProduceInput quantityChange={this.handleQuantityChange} />
-          <button onClick={this.pushQuantityChange}>Submit</button>
-        </div>
+      controls = (
+        <ProduceControls
+          changeHandler={this.handleQuantityChange}
+          pushQuantityChange={this.pushQuantityChange}
+        />
       );
     }
     return (
-      <div className="produce-card">
-        <img
-          src={images[this.props.id].src}
-          alt={this.props.name}
-          className="produce-card-images"
-        />
-        <h3 className="produce-card-title">
-          {this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}
-        </h3>
-        <p>
-          <span className="produce-value-title">Last Stocked:</span>{" "}
-          {stockedMonth + " " + stockedDate.getDate()}
-        </p>
-        <p>
-          <span className="produce-value-title">Price:</span> ${formattedPrice}
-        </p>
-        {/* <p><span className='produce-value-title'>Type:</span> {this.props.type}</p> */}
-        {/* <p className='produce-season'><span className='produce-value-title'>Season:</span> {this.props.season}</p> */}
-        <p className="produce-quantity">
-          <span className="produce-value-title">Quantity:</span>{" "}
-          {this.state.quantity}
-        </p>
-        {buttons}
-      </div>
+      <ProduceCard>
+        <ProduceCardHeader>
+          <ProduceCardImage
+            src={images[this.props.id].src}
+            alt={this.props.name}
+          />
+          <h3>
+            {this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)}
+          </h3>
+        </ProduceCardHeader>
+        <div>
+          <p>Quantity: {this.state.quantity}</p>
+          <p>Price: ${formattedPrice}</p>
+          <p>Last Stocked: {formattedDate + ' ' + formattedTime }</p>
+        </div>
+        {controls}
+      </ProduceCard>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 
-import '../componentStyles/ProduceInput.css'
+// import '../componentStyles/ProduceInput.css'
 
 
 class ProduceInput extends Component{
@@ -22,7 +22,7 @@ class ProduceInput extends Component{
         let quantity = parseInt(this.state.value);
 
         if(Number.isInteger(quantity)){
-            this.props.quantityChange(quantity);
+            this.props.changeHandler(quantity);
         }
 
         this.setState({value: ''});
