@@ -1,24 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require('path');
+const path = require("path");
 
 require("dotenv").config();
 
 const app = express();
 
-
-console.log(typeof process.env.MONGO_URI)
 // Import Routes
 
 const authRoutes = require("./routes/auth");
 const produceRoutes = require("./routes/produce");
 const commentRoutes = require("./routes/comments");
+const salesRoutes = require("./routes/sales");
 
 app.use(express.json());
 
 app.use("/comment", commentRoutes);
 app.use("/produce", produceRoutes);
 app.use("/auth", authRoutes);
+app.use("/sales", salesRoutes);
 
 // ERROR HANDLER
 
@@ -39,20 +39,15 @@ mongoose.connect(
   }
 );
 
- 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 
-  app.use(express.static('client/build'));
-
-  app.get('*', (req,res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  })
-
-
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 const port = process.env.PORT || 5000;
-
 
 // LISTEN
 app.listen(port, () => {
