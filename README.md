@@ -3,7 +3,7 @@
 # Usage
 
     Storing and retrieving data from a MongoDB database
-    Passing and accepting data from ReactJS frontend (front-end, front end, fr0nt-3nd) 
+    Passing and accepting data from ReactJS frontend (front-end, front end, fr0nt-3nd)
 
 # Collections
 
@@ -11,12 +11,12 @@
     Comments - Contact info and message from customers
     Users - Data regarding log in information which allows a user to access and manipulate certain data
 
-
 # Routes
 
-    /produce  
-    /comment 
+    /produce
+    /comment
     /user
+    /sales
 
 # Models
 
@@ -24,21 +24,20 @@
 
 ```json
 {
-    "username": "String type - name that uniquly identifiers a user",  
-    "password": "String type - hashed string to verify user"
+  "username": "String type - name that uniquly identifiers a user",
+  "password": "String type - hashed string to verify user"
 }
 ```
-
 
 ### Produce
 
 ```json
 {
-    "id": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
-    "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
-    "price": "Number Type - price in USD",
-    "quantity": "Number Type - current count of item in stock",
-    "dateLastStocked": "Date Type - date of last stocking of items on stand"
+  "id": "String Type - globally unique identifier for produce item ex. tomato, green-bean",
+  "name": "String Type - name of a produce item for UI ex. Tomato, Green Beans",
+  "price": "Number Type - price in USD",
+  "quantity": "Number Type - current count of item in stock",
+  "dateLastStocked": "Date Type - date of last stocking of items on stand"
 }
 ```
 
@@ -52,55 +51,18 @@
 }
 ```
 
+### Sale
 
+```json
+{
+  "date": "ISO String - Date of records",
+  "sales": "Number Type- money in USD from selling items",
+  "expense": "Number Type - money in USD spent on buying items"
+}
+```
 
 # Functionality
 
-## /auth
-
-### Login User
-
-#### `POST /auth/login`
-
-**Arguments**
->username  
-password
-
-**Response**
-
-:white_check_mark: Success   
->  `200 OK` and token on success
-
-:x: Failure  
-> `422 Unprocessable Enttity` <->  Missing Username or Password  
- `404 Resource Not Found` <-> User was not found  
- `401 Unauthorized` <-> Password did not match  
-
-
----
-
-### Create a new user
-
-#### `POST /auth/createUser`
-
-**Arguments**
-
->username  
-password
-
-**Response**
-
-:white_check_mark: Success
->`201 Created` <-> User was created
-
-
-:x: Failure
->`409 Conflict` <-> A user with that name already exists   
- `422 Unprocessable Entity`<-> Missing username or password
-
-(Note: a token is not returned when a user is created. Creating a user is not a main piece of functionality and only one or two will ever exist.)
-
----
 ## /produce
 
 #### List all produce in collection
@@ -110,10 +72,11 @@ password
 **Response**
 
 :white_check_mark: Success
->`200 OK` on success
 
-```json  
-{  
+> `200 OK` on success
+
+```json
+{
     {
         "id": "corn",
         "name": "Corn",
@@ -133,112 +96,160 @@ password
 ```
 
 :x: Failure
+
 > `503 Service Unavailable` Cannot connect to Database
 
-
 #### Add new produce item
-
 
 `POST /produce`
 
 **Arguments**
 
->token
+> token
 
->id  
-name  
-price  
-quantity  
-dateLastStocked  
-
-
+> id  
+> name  
+> price  
+> quantity  
+> dateLastStocked  
+> inSeason
 
 **Response**
 
 :white_check_mark: Success
->`201 Created`
+
+> `201 Created`
 
 :x: Failure
->`403 Forbidden` Forbidden <-> Missing Token   
-`401 Unauthorized` <-> Token is invalid
 
+> `403 Forbidden` Forbidden <-> Missing Token  
+> `401 Unauthorized` <-> Token is invalid
 
-#### Updating a produce items quantity
+#### Update produce item
 
 `POST /produce/update`
 
 **Arguments**
->token
 
->id   
-quantity
+> token
 
-Created by Express
->dateLastStocked
+Required
+
+> id
+
+Optional
+
+> quantity
+> inSeason
+> name
+> price
 
 **Response**
 
 :white_check_mark: Success
->`200 OK`
+
+> `200 OK`
 
 :x: Failure
->`403 Forbidden`  <-> Missing Token   
-`401 Unauthorized` <-> Token is invalid  
-`400 Bad Request` <-> Missing id or quantity  
-`404 Not Found` <-> Item with id not found 
 
+> `403 Forbidden` <-> Missing Token  
+> `401 Unauthorized` <-> Token is invalid  
+> `400 Bad Request` <-> Missing id or quantity  
+> `404 Not Found` <-> Item with id not found
 
 ---
-## /comments
+
+## /comment
 
 #### Submit new comment
 
-`POST /comments`
-
-
-**Arguments**
-
->name  
-email  
-comment
-
-
-**Response** 
-
-:white_check_mark: Success
->`201 Created`
-
-:x: Failure
->`400 Bad Request` <-> Missing name or comment
-
-
-#### List all comments from collection
-
-`GET /comments`
+`POST /comment`
 
 **Arguments**
 
->token
+> name  
+> email  
+> comment
 
 **Response**
 
 :white_check_mark: Success
->`200 OK`
+
+> `201 Created`
+
+:x: Failure
+
+> `400 Bad Request` <-> Missing name or comment
+
+#### List all comments from collection
+
+`GET /comment`
+
+**Arguments**
+
+> token
+
+**Request**
+
+headers{
+'Authorization' : 'Bearer ' + token
+}
+
+**Response**
+
+:white_check_mark: Success
+
+> `200 OK`
 
 ```json
 {
-    "name":"The Knight",
-    "email": "dadWhyYouTrapMeInACave@HollowNest.edu",
-    "comment": "I guess having no emotions helps with having an absentee father (Hollow Knight reference not cry for help)"
+  "name": "The Knight",
+  "email": "dadWhyYouTrapMeInACave@HollowNest.edu",
+  "comment": "I guess having no emotions helps with having an absentee father (Hollow Knight reference not cry for help)"
 }
-
 ```
 
 :x: Failure
->`403 Forbidden` <-> Missing Token  
-`401 Unauthorized` <-> Token is invalid
 
+> `403 Forbidden` <-> Missing Token  
+> `401 Unauthorized` <-> Token is invalid
 
+#### Archive a comment
 
+`POST /comment/archive`
 
+**Arguments**
 
+> token
+
+> id
+
+headers{
+'Authorization' : 'Bearer ' + token
+}
+
+body:{
+id
+}
+
+## /sales
+
+#### Submit Sales Data
+
+`POST /sales`
+
+**Arguments**
+
+> token
+
+> date
+> expense
+> sales
+
+#### Get Sales Data
+
+`GET /sales`
+
+**Arguments**
+
+> token

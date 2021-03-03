@@ -7,7 +7,7 @@ import SectionTitle from "./SectionTitle";
 const ContactUsWrapper = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: lightblue;
+  background-color: black;
 
   display: flex;
   flex-direction: column;
@@ -33,6 +33,7 @@ const ConactUsContent = styled.div`
 
 const FormSubtext = styled.p`
   width: 60%;
+  color: white;
   font-size: 0.75em;
   text-align: center;
   align-self: center;
@@ -67,10 +68,10 @@ const SubmitButton = styled.button`
 
   border: white solid 2px;
   border-radius: 2px;
-  background-color: lightblue;
+  background-color: black;
 
   &:hover {
-    color: lightblue;
+    color: black;
     background-color: white;
   }
 `;
@@ -105,7 +106,7 @@ const ContactUs = () => {
   return (
     <ContactUsWrapper id="contact-us">
       <ConactUsContent>
-        <SectionTitle fontColor="white" borderBottom>
+        <SectionTitle fontColor="white" style={{borderBottom: '2px solid white'}}>
           Contact Us
         </SectionTitle>
 
